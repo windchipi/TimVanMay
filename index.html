@@ -34,79 +34,27 @@
         }
 
         /* LOBBY */
-        #lobby { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            padding: 20px; 
-        }
-        
-        .lobby-title { 
-            font-size: 2.8rem; 
-            color: var(--primary); 
-            text-transform: uppercase; 
-            letter-spacing: 8px; 
-            margin-bottom: 30px; 
-            text-shadow: 0 0 20px var(--primary-glow); 
-        }
-
-        .menu-group { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            width: 100%; 
-            max-width: 350px; 
-        }
-        
-        .menu-btn { 
-            padding: 18px; 
-            font-size: 1rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-            background: var(--card-bg); 
-            color: var(--primary); 
-            border: 2px solid var(--primary); 
-            border-radius: 50px; 
-            transition: 0.3s ease; 
-            text-transform: uppercase; 
-            box-shadow: 0 0 10px var(--primary-glow); 
-            backdrop-filter: blur(5px);
-        }
-        
-        .menu-btn:hover { 
-            background: var(--primary); 
-            color: #000; 
-            box-shadow: 0 0 30px var(--primary); 
-            transform: scale(1.05);
-        }
-        
+        #lobby { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .lobby-title { font-size: 2.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 8px; margin-bottom: 30px; text-shadow: 0 0 20px var(--primary-glow); }
+        .menu-group { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 350px; }
+        .menu-btn { padding: 18px; font-size: 1rem; font-weight: bold; cursor: pointer; background: var(--card-bg); color: var(--primary); border: 2px solid var(--primary); border-radius: 50px; transition: 0.3s ease; text-transform: uppercase; box-shadow: 0 0 10px var(--primary-glow); backdrop-filter: blur(5px); }
+        .menu-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); transform: scale(1.05); }
         .btn-alt { border-color: #ffcc00; color: #ffcc00; box-shadow: 0 0 10px rgba(255, 204, 0, 0.4); }
         .btn-alt:hover { background: #ffcc00; color: #000; box-shadow: 0 0 30px #ffcc00; }
 
-        select {
-            padding: 12px; background: #000; color: var(--primary); 
-            border: 2px solid var(--primary); border-radius: 8px; font-weight: bold;
-        }
+        select { padding: 12px; background: #000; color: var(--primary); border: 2px solid var(--primary); border-radius: 8px; font-weight: bold; }
 
         /* STAGES */
         .stage { display: none; padding: 15px; animation: fadeIn 0.5s; position: relative; z-index: 1; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .nav-bar { 
-            display: flex; justify-content: space-between; align-items: center; 
-            max-width: 1200px; margin: 0 auto 10px; border-bottom: 1px solid #333; padding-bottom: 10px; 
-        }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 10px; border-bottom: 1px solid #333; padding-bottom: 10px; }
         .back-btn { background: #333; color: white; border: 1px solid #555; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-
         .lang-switch-mini { background: #000; border: 1px solid var(--primary); color: var(--primary); padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
         /* RITUAL */
         #ritual-area { max-width: 550px; margin: 20px auto; background: var(--card-bg); padding: 25px; border-radius: 15px; border: 1px solid var(--primary); backdrop-filter: blur(10px); }
         textarea { width: 100%; height: 100px; background: #000; color: #fff; border: 1px solid #444; border-radius: 8px; padding: 12px; box-sizing: border-box; resize: none; font-size: 1rem; margin-top: 10px; }
         .ritual-btn { margin-top: 15px; padding: 15px; background: var(--primary); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; }
-
         #wish-display { display: none; max-width: 800px; margin: 0 auto 20px; padding: 15px; border: 1px dashed var(--primary); background: rgba(0, 255, 149, 0.1); border-radius: 10px; font-style: italic; }
 
         /* TABLETOP */
@@ -165,7 +113,7 @@
         <div id="wish-display"></div> 
         <div id="ritual-area">
             <p style="margin: 0; color: var(--primary); font-weight: bold;">TÂM NIỆM ĐIỀU BẠN MUỐN HỎI:</p>
-            <textarea id="ritual-input" placeholder="Ví dụ: Tính năng mới này có giúp User Retention tăng không?"></textarea>
+            <textarea id="ritual-input" placeholder="Ví dụ: Thiết kế cơ chế này có thực sự tạo ra Flow cho người chơi?"></textarea>
             <button class="ritual-btn" onclick="startRitual()">Gửi tâm nguyện & Khai quẻ</button>
         </div>
         <div class="tabletop locked" id="tabletop"></div>
@@ -174,7 +122,7 @@
 
     <div id="stage-number" class="stage">
         <div class="nav-bar">
-            <button class="back-btn" onclick="resetApp()">← Quay lại</button>
+            <button class="back-btn" onclick="resetApp()">← Quay lại Lobby</button>
             <h2 id="number-title" style="color: #ffcc00; margin:0; font-size: 1.2rem;"></h2>
             <div style="width: 50px;"></div>
         </div>
@@ -184,7 +132,7 @@
     </div>
 
     <script>
-        // --- 1. CANVAS BACKGROUND (Hiệu ứng vũ trụ) ---
+        // --- 1. CANVAS BACKGROUND ---
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -201,7 +149,13 @@
         initSpace();
 
         // --- 2. GAME LOGIC ---
-        const totalCards = 113;
+        
+        // DANH SÁCH TẤT CẢ FILE THẺ (Pool bài)
+        const cardPool = [];
+        for (let i = 1; i <= 113; i++) cardPool.push(i.toString());
+        // Thêm 3 lá lẻ bà vừa báo
+        cardPool.push("67.5", "93.5", "95.5");
+
         const lobby = document.getElementById('lobby');
         const stageCard = document.getElementById('stage-card');
         const stageNum = document.getElementById('stage-number');
@@ -225,22 +179,23 @@
             tabletop.innerHTML = ''; 
             currentActiveCards = [];
 
-            // RULE: KHÔNG RÚT TRÙNG LÁ
-            let picked = new Set();
-            while(picked.size < count) {
-                picked.add(Math.floor(Math.random() * totalCards) + 1);
+            // RULE: KHÔNG RÚT TRÙNG LÁ (Dùng mảng cardPool để chọn)
+            let tempPool = [...cardPool];
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * tempPool.length);
+                const selectedCard = tempPool.splice(randomIndex, 1)[0];
+                currentActiveCards.push(selectedCard);
             }
-            currentActiveCards = Array.from(picked);
 
-            currentActiveCards.forEach(randomNum => {
+            currentActiveCards.forEach(cardName => {
                 const slot = document.createElement('div');
                 slot.className = 'card-slot';
                 slot.innerHTML = `
                     <div class="card-label">BÀI ĐANG ÚP...</div>
-                    <div class="flip-card" onclick="flipCard(this, ${randomNum})">
+                    <div class="flip-card" onclick="flipCard(this, '${cardName}')">
                         <div class="flip-card-inner">
                             <div class="card-back"><img class="img-back" src="${folder}/BACK.png"></div>
-                            <div class="card-front"><img class="img-front" src="${folder}/${randomNum}.png"></div>
+                            <div class="card-front"><img class="img-front" src="${folder}/${cardName}.png"></div>
                         </div>
                     </div>
                 `;
@@ -251,7 +206,9 @@
         function switchLanguage() {
             const newFolder = liveLangSwitch.value;
             document.querySelectorAll('.img-back').forEach(img => img.src = `${newFolder}/BACK.png`);
-            document.querySelectorAll('.img-front').forEach((img, index) => img.src = `${newFolder}/${currentActiveCards[index]}.png`);
+            document.querySelectorAll('.img-front').forEach((img, index) => {
+                img.src = `${newFolder}/${currentActiveCards[index]}.png`;
+            });
         }
 
         function startRitual() {
@@ -264,11 +221,11 @@
             document.querySelectorAll('.card-label').forEach(label => label.innerText = "CHẠM ĐỂ LẬT BÀI");
         }
 
-        function flipCard(el, num) {
+        function flipCard(el, cardName) {
             const inner = el.querySelector('.flip-card-inner');
             if (!inner.classList.contains('is-flipped')) {
                 inner.classList.add('is-flipped');
-                el.parentElement.querySelector('.card-label').innerText = `LÁ SỐ #${num}`;
+                el.parentElement.querySelector('.card-label').innerText = `LÁ SỐ #${cardName}`;
             }
         }
 
