@@ -7,6 +7,8 @@
     <script language="javascript" src="https://www.minhngoc.net.vn/jquery/jquery-1.7.2.js"></script>
     <link rel="stylesheet" type="text/css" href="https://www.minhngoc.net.vn/style/bangketqua_mini.css"/>
     
+    <script src="mo-thay-gi.js"></script>
+
     <style>
         :root {
             --primary: #00ff95;
@@ -16,17 +18,13 @@
             --card-w: 350px; 
             --card-h: 574px; 
             --xoso-red: #ff3333;
+            --magic-purple: #a020f0;
         }
 
-        body { 
-            text-align: center; font-family: 'Segoe UI', sans-serif; 
-            background-color: var(--bg-deep); color: #c9d1d9; 
-            margin: 0; overflow-x: hidden; position: relative;
-        }
-
+        body { text-align: center; font-family: 'Segoe UI', sans-serif; background-color: var(--bg-deep); color: #c9d1d9; margin: 0; overflow-x: hidden; position: relative; }
         #space-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        /* LOBBY */
+        /* MENU */
         #lobby { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
         .lobby-title { font-size: 2.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 8px; margin-bottom: 25px; text-shadow: 0 0 20px var(--primary-glow); }
         .menu-group { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 350px; }
@@ -34,10 +32,8 @@
         .menu-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); transform: scale(1.05); }
         .btn-alt { border-color: #ffcc00; color: #ffcc00; box-shadow: 0 0 10px rgba(255, 204, 0, 0.4); }
         .btn-alt:hover { background: #ffcc00; color: #000; box-shadow: 0 0 30px #ffcc00; }
-        .btn-xoso { border-color: var(--xoso-red); color: var(--xoso-red); box-shadow: 0 0 10px rgba(255, 51, 51, 0.4); }
-        .btn-xoso:hover { background: var(--xoso-red); color: #fff; box-shadow: 0 0 30px var(--xoso-red); }
-
-        select { padding: 12px; background: #000; color: var(--primary); border: 2px solid var(--primary); border-radius: 8px; font-weight: bold; }
+        .btn-magic { border-color: var(--magic-purple); color: var(--magic-purple); box-shadow: 0 0 10px rgba(160, 32, 240, 0.4); }
+        .btn-magic:hover { background: var(--magic-purple); color: #fff; box-shadow: 0 0 30px var(--magic-purple); }
 
         /* STAGES */
         .stage { display: none; padding: 15px; animation: fadeIn 0.5s; position: relative; z-index: 1; }
@@ -45,57 +41,28 @@
         .nav-bar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 10px; border-bottom: 1px solid #333; padding-bottom: 10px; }
         .back-btn { background: #333; color: white; border: 1px solid #555; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
 
-        /* RITUAL */
-        #ritual-area { max-width: 550px; margin: 20px auto; background: var(--card-bg); padding: 25px; border-radius: 15px; border: 1px solid var(--primary); backdrop-filter: blur(10px); }
-        textarea { width: 100%; height: 100px; background: #000; color: #fff; border: 1px solid #444; border-radius: 8px; padding: 12px; box-sizing: border-box; resize: none; font-size: 1rem; margin-top: 10px; }
-        .ritual-btn { margin-top: 15px; padding: 15px; background: var(--primary); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; }
-        #wish-display { display: none; max-width: 800px; margin: 0 auto 20px; padding: 15px; border: 1px dashed var(--primary); background: rgba(0, 255, 149, 0.1); border-radius: 10px; font-style: italic; }
+        /* CHIÊM TINH UI */
+        .magic-box { max-width: 500px; margin: 20px auto; background: var(--card-bg); padding: 30px; border-radius: 20px; border: 2px solid var(--magic-purple); box-shadow: 0 0 20px var(--magic-purple); }
+        .magic-input { width: 100%; padding: 15px; background: #000; border: 1px solid var(--magic-purple); color: #fff; border-radius: 10px; font-size: 1.1rem; text-align: center; margin-bottom: 15px; }
+        .magic-res-title { color: var(--magic-purple); font-weight: bold; font-size: 1.2rem; margin: 20px 0 10px; }
+        .magic-numbers { font-size: 3rem; color: #ffcc00; font-weight: bold; letter-spacing: 5px; text-shadow: 0 0 15px #ffcc00; }
+        .magic-soul { font-style: italic; color: #aaa; margin-top: 15px; line-height: 1.4; }
 
-        /* TABLETOP */
-        .tabletop { display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap; padding-bottom: 30px; }
+        /* CÁC STYLE KHÁC GIỮ NGUYÊN TỪ BẢN TRƯỚC */
+        .tabletop { display: flex; flex-direction: row; justify-content: center; gap: 20px; flex-wrap: wrap; padding-bottom: 30px; }
         .locked { filter: blur(10px); pointer-events: none; opacity: 0.3; }
-        .card-slot { width: var(--card-w); margin-bottom: 10px; }
-        .card-label { color: var(--primary); font-family: monospace; margin-bottom: 10px; font-size: 1.1rem; font-weight: bold; }
+        .card-slot { width: var(--card-w); }
         .flip-card { width: var(--card-w); height: var(--card-h); perspective: 1000px; cursor: pointer; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .is-flipped { transform: rotateY(180deg); }
-        .card-front, .card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 15px; border: 2px solid var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
-        .card-back { background: #111; }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 2px solid var(--primary); }
         .card-front { transform: rotateY(180deg); }
         img { width: 100%; height: 100%; object-fit: contain; border-radius: 13px; }
-
-        /* FIX ROLL SỐ: Dàn hàng ngang và Bóng Lotto */
-        #number-result { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 200px; }
-        .num-display { font-size: 8rem; font-weight: bold; color: #ffcc00; text-shadow: 0 0 40px rgba(255, 204, 0, 0.6); }
-        .lotto-group { display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
-        .lotto-ball { 
-            width: 70px; height: 70px; background: #fff; color: #000; 
-            border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; font-size: 1.8rem; font-weight: bold; 
-            border: 4px solid #ffcc00; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            animation: bounceIn 0.5s ease;
-        }
-        @keyframes bounceIn { from { transform: scale(0); } to { transform: scale(1); } }
-
-        /* XSMB WIDGET BOX - ĐÃ FIX MỸ THUẬT */
-        .xsmb-wrapper { 
-            max-width: 420px; margin: 20px auto; 
-            background: rgba(10, 10, 20, 0.85); 
-            padding: 15px; border-radius: 20px; 
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 30px var(--primary-glow);
-            backdrop-filter: blur(10px);
-        }
-        #box_kqxs_minhngoc { background: transparent !important; color: #fff !important; }
-        #box_kqxs_minhngoc img, #box_kqxs_minhngoc a[href*="print"] { display: none !important; }
-        #box_kqxs_minhngoc table { background: transparent !important; color: #fff !important; border-collapse: collapse !important; width: 100% !important; }
-        #box_kqxs_minhngoc td { border: 1px solid rgba(0, 255, 149, 0.2) !important; color: #fff !important; padding: 5px !important; }
-        #box_kqxs_minhngoc .giaiDB { color: #ff3333 !important; font-size: 24px !important; font-weight: bold !important; }
-
-        .contact-area { margin-top: 10px; padding: 15px; border-top: 1px solid #333; background: var(--card-bg); border-radius: 12px; display: inline-block; backdrop-filter: blur(5px); }
+        .lotto-group { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .lotto-ball { width: 70px; height: 70px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; border: 4px solid #ffcc00; }
+        .xsmb-wrapper { max-width: 420px; margin: 20px auto; background: #fff; padding: 10px; border-radius: 15px; border: 5px solid #ff3333; }
+        .contact-area { margin-top: 15px; padding: 15px; background: var(--card-bg); border-radius: 12px; display: inline-block; }
         .qr-img { width: 110px; height: 110px; border: 1px solid var(--primary); border-radius: 10px; }
-
-        @media (max-width: 1100px) { body { overflow-y: auto; } .tabletop { flex-direction: column; align-items: center; } :root { --card-w: 340px; } }
     </style>
 </head>
 <body>
@@ -104,164 +71,154 @@
 
     <div id="lobby">
         <h1 class="lobby-title">🔮 NHÀ TIÊN TRI 🔮</h1>
-        <div style="margin-bottom: 25px;">
-            <select id="deck-selector">
-                <option value="VN">DATABASE: TIẾNG VIỆT</option>
-                <option value="ENG">DATABASE: ENGLISH</option>
-            </select>
-        </div>
         <div class="menu-group">
             <button class="menu-btn" onclick="prepareCardGame(1)">Rút 1 Lá (Đơn Quẻ)</button>
             <button class="menu-btn" onclick="prepareCardGame(3)">Rút 3 Lá (Tam Quẻ)</button>
+            <button class="menu-btn btn-magic" onclick="showDreamStage()">CHIÊM TINH ĐOÁN SỐ</button>
             <button class="menu-btn btn-alt" onclick="initNumberStage('small')">VẬN MAY NHỎ (1-99)</button>
             <button class="menu-btn btn-alt" onclick="initNumberStage('big')">VẬN MAY LỚN (6 SỐ)</button>
-            <button class="menu-btn btn-xoso" onclick="showXSMB()">SOI CẦU XSMB</button>
+            <button class="menu-btn" style="border-color:#ff3333; color:#ff3333" onclick="showXSMB()">KẾT QUẢ XSMB</button>
         </div>
+    </div>
+
+    <div id="stage-dream" class="stage">
+        <div class="nav-bar">
+            <button class="back-btn" onclick="resetApp()">← Quay lại</button>
+            <h2 style="color: var(--magic-purple); margin:0;">CHIÊM TINH GIẤC MƠ</h2>
+            <div style="width: 50px;"></div>
+        </div>
+        <div class="magic-box">
+            <p>Đêm qua bà mơ thấy gì? (Gõ từ khóa: rắn, tiền, cá...)</p>
+            <input type="text" id="dream-input" class="magic-input" placeholder="Nhập giấc mơ của bà..." oninput="lookupDream()">
+            <div id="dream-result" style="display:none;">
+                <div class="magic-res-title">CON SỐ VŨ TRỤ GỬI BẠN:</div>
+                <div id="res-numbers" class="magic-numbers">--</div>
+                <div id="res-soul" class="magic-soul"></div>
+            </div>
+            <div id="dream-none" style="margin-top:20px; color:#666;">Chưa tìm thấy điềm báo cho giấc mơ này...</div>
+        </div>
+        <div class="contact-area"><p>Giải mã chuyên sâu cùng Master:</p><img src="lienhe.png" class="qr-img"></div>
     </div>
 
     <div id="stage-card" class="stage">
-        <div class="nav-bar">
-            <button class="back-btn" onclick="resetApp()">← Quay lại</button>
-            <h2 id="card-title" style="color: var(--primary); margin:0; font-size: 1.1rem;"></h2>
-            <select id="live-lang-switch" class="lang-switch-mini" style="background: #000; color: var(--primary); border: 1px solid var(--primary); padding: 5px; border-radius: 5px;" onchange="switchLanguage()">
-                <option value="VN">VN</option>
-                <option value="ENG">ENG</option>
-            </select>
+        <div class="nav-bar"><button class="back-btn" onclick="resetApp()">← Quay lại</button><h2 id="card-title" style="color:var(--primary)"></h2></div>
+        <div id="ritual-area" style="max-width:500px; margin:auto; background:var(--card-bg); padding:20px; border-radius:15px; border:1px solid var(--primary)">
+            <textarea id="ritual-input" style="width:100%; height:80px; background:#000; color:#fff; border:1px solid #444; padding:10px" placeholder="Tâm nguyện của bà..."></textarea>
+            <button class="ritual-btn" style="width:100%; padding:15px; margin-top:10px; background:var(--primary); font-weight:bold" onclick="startRitual()">KHAI QUẺ</button>
         </div>
-        <div id="wish-display"></div> 
-        <div id="ritual-area">
-            <p style="margin: 0; color: var(--primary); font-weight: bold;">TÂM NIỆM ĐIỀU BẠN MUỐN HỎI:</p>
-            <textarea id="ritual-input" placeholder="Yêu cầu tâm nguyện (không quá 200 từ)..."></textarea>
-            <button class="ritual-btn" onclick="startRitual()">Gửi tâm nguyện & Khai quẻ</button>
-        </div>
+        <div id="wish-display" style="margin:15px auto; font-style:italic; border:1px dashed var(--primary); display:none; padding:10px; max-width:600px;"></div>
         <div class="tabletop locked" id="tabletop"></div>
-        <div class="contact-area"><p>Luận giải cùng Master GD:</p><img src="lienhe.png" class="qr-img"></div>
     </div>
 
     <div id="stage-number" class="stage">
-        <div class="nav-bar">
-            <button class="back-btn" onclick="resetApp()">← Quay lại</button>
-            <h2 id="number-title" style="color: #ffcc00; margin:0; font-size: 1.2rem;"></h2>
-            <div style="width: 50px;"></div>
-        </div>
-        <div id="number-result">
-            <div style="font-style: italic; color: #444; font-size: 1.5rem;">Đang chờ tín hiệu vũ trụ...</div>
-        </div>
-        <button class="menu-btn btn-alt" id="roll-btn" style="width: 250px; background: #ffcc00; color: #000; margin-top: 20px;">KHAI VẬN (ROLL)</button>
-        <div style="margin-top: 30px;"><div class="contact-area"><p>Luận số cùng Master:</p><img src="lienhe.png" class="qr-img"></div></div>
+        <div class="nav-bar"><button class="back-btn" onclick="resetApp()">← Quay lại</button><h2 id="number-title" style="color:#ffcc00"></h2></div>
+        <div id="number-result" style="min-height:150px; display:flex; justify-content:center; align-items:center;"></div>
+        <button class="menu-btn btn-alt" id="roll-btn" style="width:200px; margin:auto">ROLL</button>
     </div>
 
     <div id="stage-xsmb" class="stage">
-        <div class="nav-bar">
-            <button class="back-btn" onclick="resetApp()">← Quay lại</button>
-            <h2 style="color: var(--xoso-red); margin:0; font-size: 1.2rem;">KẾT QUẢ MIỀN BẮC</h2>
-            <div style="width: 50px;"></div>
+        <div class="nav-bar"><button class="back-btn" onclick="resetApp()">← Quay lại</button><h2 style="color:#ff3333">XSMB</h2></div>
+        <div class="xsmb-wrapper" id="box_kqxs_minhngoc">
+            <script language="javascript" src="https://www.minhngoc.net.vn/getkqxs/mien-bac.js"></script>
         </div>
-        <div class="xsmb-wrapper">
-            <div id="box_kqxs_minhngoc">
-                <script language="javascript">
-                    bgcolor="transparent";titlecolor="#00ff95";dbcolor="#ff3333";fsize="12px";kqwidth="380px";
-                </script>
-                <script language="javascript" src="https://www.minhngoc.net.vn/getkqxs/mien-bac.js"></script>
-            </div>
-        </div>
-        <div class="contact-area"><p>Liên hệ Master soi cầu:</p><img src="lienhe.png" class="qr-img"></div>
     </div>
 
     <script>
-        // 1. CANVAS VŨ TRỤ
+        // --- LOGIC CHIÊM TINH ---
+        function showDreamStage() {
+            document.getElementById('lobby').style.display = 'none';
+            document.getElementById('stage-dream').style.display = 'block';
+            document.getElementById('dream-input').value = '';
+            document.getElementById('dream-result').style.display = 'none';
+            document.getElementById('dream-none').style.display = 'block';
+        }
+
+        function lookupDream() {
+            const input = document.getElementById('dream-input').value.toLowerCase().trim();
+            const resDiv = document.getElementById('dream-result');
+            const noneDiv = document.getElementById('dream-none');
+            
+            if (!input) { resDiv.style.display = 'none'; noneDiv.style.display = 'block'; return; }
+
+            // Tìm kiếm trong DreamDB (được load từ file mo-thay-gi.js)
+            const match = DreamDB.find(item => input.includes(item.key) || item.key.includes(input));
+
+            if (match) {
+                resDiv.style.display = 'block';
+                noneDiv.style.display = 'none';
+                document.getElementById('res-numbers').innerText = match.numbers;
+                document.getElementById('res-soul').innerText = match.soul;
+            } else {
+                resDiv.style.display = 'none';
+                noneDiv.style.display = 'block';
+            }
+        }
+
+        // --- CÁC LOGIC CŨ (BÀI, SỐ, VŨ TRỤ) ---
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         class Particle { constructor() { this.reset(); } reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 1.5; this.speed = Math.random() * 0.1 + 0.05; } update() { this.y -= this.speed; if (this.y < 0) this.reset(); } draw() { ctx.fillStyle = "rgba(255,255,255,0.5)"; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); } }
-        function initSpace() { resize(); particles = []; for(let i=0; i<100; i++) particles.push(new Particle()); animate(); }
+        function initSpace() { resize(); for(let i=0; i<100; i++) particles.push(new Particle()); animate(); }
         function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update(); p.draw();}); requestAnimationFrame(animate); }
         window.addEventListener('resize', resize); initSpace();
 
-        // 2. GAME LOGIC
-        const cardPool = [];
-        for (let i = 1; i <= 113; i++) cardPool.push(i.toString());
-        cardPool.push("67.5", "93.5", "95.5");
-
-        const lobby = document.getElementById('lobby');
-        const stageCard = document.getElementById('stage-card');
-        const stageXSMB = document.getElementById('stage-xsmb');
-        const stageNum = document.getElementById('stage-number');
-        const ritualArea = document.getElementById('ritual-area');
-        const wishDisplay = document.getElementById('wish-display');
-        const tabletop = document.getElementById('tabletop');
-        let currentActiveCards = [];
+        const cardPool = []; for (let i = 1; i <= 113; i++) cardPool.push(i.toString()); cardPool.push("67.5", "93.5", "95.5");
 
         function resetApp() {
-            stageCard.style.display = 'none'; stageXSMB.style.display = 'none'; stageNum.style.display = 'none';
-            lobby.style.display = 'flex'; ritualArea.style.display = 'block'; wishDisplay.style.display = 'none';
-            tabletop.classList.add('locked'); currentActiveCards = [];
+            document.querySelectorAll('.stage').forEach(s => s.style.display = 'none');
+            document.getElementById('lobby').style.display = 'flex';
+            document.getElementById('tabletop').classList.add('locked');
+            document.getElementById('ritual-area').style.display = 'block';
+            document.getElementById('wish-display').style.display = 'none';
         }
 
         function prepareCardGame(count) {
-            const folder = document.getElementById('deck-selector').value;
-            document.getElementById('live-lang-switch').value = folder;
-            lobby.style.display = 'none'; stageCard.style.display = 'block';
+            document.getElementById('lobby').style.display = 'none';
+            document.getElementById('stage-card').style.display = 'block';
             document.getElementById('card-title').innerText = count === 1 ? "ĐƠN QUẺ" : "TAM QUẺ TÀI LỘC";
-            tabletop.innerHTML = ''; 
+            const tabletop = document.getElementById('tabletop');
+            tabletop.innerHTML = '';
             let shuffled = [...cardPool].sort(() => Math.random() - 0.5);
-            currentActiveCards = shuffled.slice(0, count);
-            currentActiveCards.forEach(cardName => {
+            let picked = shuffled.slice(0, count);
+            picked.forEach(num => {
                 const slot = document.createElement('div');
                 slot.className = 'card-slot';
-                slot.innerHTML = `<div class="card-label">BÀI ĐANG ÚP...</div><div class="flip-card" onclick="flipCard(this, '${cardName}')"><div class="flip-card-inner"><div class="card-back"><img src="${folder}/BACK.png"></div><div class="card-front"><img src="${folder}/${cardName}.png"></div></div></div>`;
+                slot.innerHTML = `<div class="flip-card" onclick="this.querySelector('.flip-card-inner').classList.toggle('is-flipped')"><div class="flip-card-inner"><div class="card-back"><img src="VN/BACK.png"></div><div class="card-front"><img src="VN/${num}.png"></div></div></div>`;
                 tabletop.appendChild(slot);
             });
         }
 
-        function switchLanguage() {
-            const newFolder = document.getElementById('live-lang-switch').value;
-            document.querySelectorAll('.img-back').forEach(img => img.src = `${newFolder}/BACK.png`);
-            document.querySelectorAll('.img-front').forEach((img, idx) => img.src = `${newFolder}/${currentActiveCards[idx]}.png`);
-        }
-
         function startRitual() {
-            const val = document.getElementById('ritual-input').value.trim();
-            if (!val) { alert("Vui lòng nhập tâm nguyện!"); return; }
-            ritualArea.style.display = 'none';
-            wishDisplay.innerText = `Tâm nguyện: "${val}"`; wishDisplay.style.display = 'block';
-            tabletop.classList.remove('locked');
-            document.querySelectorAll('.card-label').forEach(l => l.innerText = "CHẠM ĐỂ LẬT BÀI");
-        }
-
-        function flipCard(el, cardName) {
-            const inner = el.querySelector('.flip-card-inner');
-            if (!inner.classList.contains('is-flipped')) {
-                inner.classList.add('is-flipped');
-                el.parentElement.querySelector('.card-label').innerText = `LÁ SỐ #${cardName}`;
-            }
+            if (!document.getElementById('ritual-input').value.trim()) return alert("Khấn nguyện đi bà!");
+            document.getElementById('ritual-area').style.display = 'none';
+            document.getElementById('wish-display').innerText = "Tâm nguyện: " + document.getElementById('ritual-input').value;
+            document.getElementById('wish-display').style.display = 'block';
+            document.getElementById('tabletop').classList.remove('locked');
         }
 
         function initNumberStage(type) {
-            lobby.style.display = 'none'; stageNum.style.display = 'block';
-            const resArea = document.getElementById('number-result');
-            const rollBtn = document.getElementById('roll-btn');
-            resArea.innerHTML = `<div style="font-style: italic; color: #444; font-size: 1.5rem;">Đang chờ tín hiệu vũ trụ...</div>`;
-            rollBtn.innerText = "KHAI VẬN (ROLL)";
-            
-            rollBtn.onclick = () => {
-                if (type === 'small') {
-                    const n = Math.floor(Math.random() * 99) + 1;
-                    resArea.innerHTML = `<div class="num-display">${n}</div>`;
-                    document.getElementById('number-title').innerText = "VẬN MAY NHỎ (1-99)";
-                } else {
-                    let s = new Set(); while(s.size < 6) s.add(Math.floor(Math.random() * 55) + 1);
-                    const sorted = Array.from(s).sort((a,b)=>a-b).map(n=>n < 10 ? '0'+n : n);
-                    let h = '<div class="lotto-group">'; sorted.forEach(n=>h+=`<div class="lotto-ball">${n}</div>`);
-                    resArea.innerHTML = h + '</div>';
-                    document.getElementById('number-title').innerText = "VẬN MAY LỚN (6 SỐ)";
+            document.getElementById('lobby').style.display = 'none';
+            document.getElementById('stage-number').style.display = 'block';
+            const res = document.getElementById('number-result');
+            const btn = document.getElementById('roll-btn');
+            res.innerHTML = "Chờ tín hiệu...";
+            btn.onclick = () => {
+                if (type === 'small') res.innerHTML = `<div class="num-display">${Math.floor(Math.random()*99)+1}</div>`;
+                else {
+                    let s = new Set(); while(s.size<6) s.add(Math.floor(Math.random()*55)+1);
+                    let h = '<div class="lotto-group">';
+                    Array.from(s).sort((a,b)=>a-b).forEach(n => h+=`<div class="lotto-ball">${n<10?'0'+n:n}</div>`);
+                    res.innerHTML = h + '</div>';
                 }
-                rollBtn.innerText = "ROLL LẠI";
             };
         }
 
-        function showXSMB() { lobby.style.display = 'none'; stageXSMB.style.display = 'block'; }
+        function showXSMB() {
+            document.getElementById('lobby').style.display = 'none';
+            document.getElementById('stage-xsmb').style.display = 'block';
+        }
     </script>
 </body>
 </html>
