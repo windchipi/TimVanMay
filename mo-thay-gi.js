@@ -117,7 +117,7 @@ const DreamDB = [
     { key: "hôn", numbers: "00, 48, 84", soul: "Sự giao thoa cảm xúc đang ở giai đoạn thăng hoa nhất." },
     { key: "chạy", numbers: "12, 21", soul: "Bạn đang cố gắng thoát khỏi một áp lực vô hình." },
     { key: "khỏa thân", numbers: "18, 81", soul: "Bạn đang muốn sống thật với bản thân, không che giấu." },
-    { key: "mất đồ", numbers: "01, 10", soul: "Hãy kiểm tra lại những giá trị cốt lõi bạn đang nắm giữ." }
+    { key: "mất đồ", numbers: "01, 10", soul: "Hãy kiểm tra lại những giá trị cốt lõi bạn đang nắm giữ." },
 
     // --- CHỦ ĐỀ: CƠ THỂ & SỨC KHỎE ---
     { key: "đau bụng", numbers: "09, 90", soul: "Có chuyện khó nói đang kìm nén trong lòng." },
@@ -226,7 +226,7 @@ const DreamDB = [
     { key: "tượng Phật", numbers: "01, 91", soul: "Tâm đức sáng suốt, mọi sự hanh thông." },
     { key: "bàn ghế", numbers: "03, 30", soul: "Sắp có sự thay đổi về vị trí làm việc." },
     { key: "mũ nón", numbers: "06, 60", soul: "Che chở và bảo vệ thành quả lao động." },
-    { key: "giày dép", numbers: "09, 90", soul: "Chuẩn bị cho những bước đi vững chắc hơn." }
+    { key: "giày dép", numbers: "09, 90", soul: "Chuẩn bị cho những bước đi vững chắc hơn." },
 
 // --- CHỦ ĐỀ: VŨ KHÍ & ĐỒ CỔ ---
     { key: "cung tên", numbers: "39, 93", soul: "Mục tiêu đã định, chỉ chờ thời điểm bóp cò." },
