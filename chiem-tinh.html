@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chiêm Tinh Giấc Mơ - Nhà Tiên Tri</title>
+    <script src="mo-thay-gi.js"></script>
+    <style>
+        :root { --magic-purple: #a020f0; --bg-deep: #050509; --card-bg: rgba(22, 27, 34, 0.85); }
+        body { text-align: center; font-family: 'Segoe UI', sans-serif; background-color: var(--bg-deep); color: #c9d1d9; margin: 0; }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 20px; border-bottom: 1px solid #333; }
+        .back-btn { background: #333; color: white; border: 1px solid #555; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; }
+        .magic-box { max-width: 550px; margin: 40px auto; background: var(--card-bg); padding: 40px 20px; border-radius: 20px; border: 2px solid var(--magic-purple); box-shadow: 0 0 30px rgba(160, 32, 240, 0.3); backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; }
+        .magic-input { width: 90%; padding: 15px; background: #000; border: 2px solid var(--magic-purple); color: #fff; border-radius: 10px; font-size: 1.2rem; text-align: center; outline: none; box-sizing: border-box; margin-bottom: 20px; }
+        .magic-numbers { font-size: 4rem; color: #ffcc00; font-weight: bold; letter-spacing: 5px; text-shadow: 0 0 20px #ffcc00; margin: 10px 0; }
+        .magic-soul { font-style: italic; color: #ccc; max-width: 90%; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <a href="index.html" class="back-btn">← Quay lại</a>
+        <h2 style="color: var(--magic-purple); margin:0;">CHIÊM TINH GIẤC MƠ</h2>
+        <div style="width: 100px;"></div>
+    </div>
+    <div class="magic-box">
+        <p style="margin-bottom: 20px;">Đêm qua bạn mơ thấy gì? (Ví dụ: rắn, tiền, sếp...)</p>
+        <input type="text" id="dream-input" class="magic-input" placeholder="Nhập từ khóa..." oninput="lookupDream()">
+        <div id="dream-result" style="display:none; width: 100%;">
+            <div style="color:var(--magic-purple); font-weight:bold;">CON SỐ ĐIỀM BÁO:</div>
+            <div class="magic-numbers" id="res-numbers">--</div>
+            <div id="res-soul" class="magic-soul"></div>
+        </div>
+        <div id="dream-none" style="margin-top:20px;">
+            <p>Chưa tìm thấy điềm báo...</p>
+            <a href="van-may.html?type=small" class="back-btn" style="background: #ffcc00; color: #000; border:none;">HỎI VŨ TRỤ (ROLL)</a>
+        </div>
+    </div>
+    <script>
+        function lookupDream() {
+            const input = document.getElementById('dream-input').value.toLowerCase().trim();
+            const resDiv = document.getElementById('dream-result');
+            const noneDiv = document.getElementById('dream-none');
+            if (!input) { resDiv.style.display = 'none'; noneDiv.style.display = 'block'; return; }
+            const match = DreamDB.find(item => input.includes(item.key) || item.key.includes(input));
+            if (match) {
+                resDiv.style.display = 'block'; noneDiv.style.display = 'none';
+                document.getElementById('res-numbers').innerText = match.numbers;
+                document.getElementById('res-soul').innerText = match.soul;
+            } else { resDiv.style.display = 'none'; noneDiv.style.display = 'block'; }
+        }
+    </script>
+</body>
+</html>
