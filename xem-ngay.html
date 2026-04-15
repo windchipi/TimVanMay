@@ -57,33 +57,46 @@
         document.getElementById('date-input').valueAsDate = new Date();
 
         function checkDate() {
-            const jobId = select.value;
-            const dateVal = document.getElementById('date-input').value;
-            if (!dateVal) return alert("Chọn ngày đã bạn ơi!");
+    const jobId = select.value;
+    const dateVal = document.getElementById('date-input').value;
+    if (!dateVal) return alert("Chọn ngày đã bạn ơi!");
 
-            // Thuật toán "Tâm linh số học": 
-            // Lấy tổng các con số trong ngày (ngày+tháng+năm) để quyết định tốt/xấu
-            const date = new Date(dateVal);
-            const score = date.getDate() + date.getMonth() + date.getFullYear();
-            
-            const job = DateJobDB.find(j => j.id === jobId);
-            const resArea = document.getElementById('result-area');
-            const resStatus = document.getElementById('res-status');
-            const resSoul = document.getElementById('res-soul');
+    const date = new Date(dateVal);
+    
+    // Thuật toán Nhân Phẩm mới: 
+    // Lấy Ngày + Tháng + (Độ dài của tên công việc) để tạo biến số
+    // Như vậy mỗi công việc trong cùng 1 ngày sẽ có kết quả khác nhau
+    const job = DateJobDB.find(j => j.id === jobId);
+    const magicNumber = date.getDate() + (date.getMonth() + 1) + job.name.length;
+    
+    const resArea = document.getElementById('result-area');
+    const resStatus = document.getElementById('res-status');
+    const resSoul = document.getElementById('res-soul');
 
-            resArea.style.display = "block";
-            
-            // Nếu tổng là số chẵn -> Tốt, số lẻ -> Xấu (Hoặc ngược lại)
-            if (score % 2 === 0) {
-                resArea.className = "result-box good";
-                resStatus.innerHTML = "✅ NGÀY ĐẠI CÁT";
-                resSoul.innerHTML = job.good;
-            } else {
-                resArea.className = "result-box bad";
-                resStatus.innerHTML = "❌ NGÀY KHÔNG TỐT";
-                resSoul.innerHTML = job.bad;
-            }
-        }
+    resArea.style.display = "block";
+    
+    // Dùng số dư của phép chia cho 3 để tạo ra 3 trạng thái: Đại Cát, Bình Thường, Hắc Ám
+    const resultType = magicNumber % 3;
+
+    if (resultType === 0) {
+        // Trạng thái TỐT
+        resArea.className = "result-box good";
+        resStatus.innerHTML = "✅ NGÀY ĐẠI CÁT";
+        resSoul.innerHTML = job.good;
+    } else if (resultType === 1) {
+        // Trạng thái BÌNH THƯỜNG (Tao mới thêm cho thực tế)
+        resArea.className = "result-box good"; 
+        resArea.style.borderColor = "#888"; // Đổi viền xám cho trung tính
+        resArea.style.color = "#ccc";
+        resStatus.innerHTML = "⚖️ NGÀY BÌNH HÒA";
+        resSoul.innerHTML = "Ngày này không tốt không xấu, mọi sự tùy duyên. Cứ làm việc bình thường thôi bạn nhé!";
+    } else {
+        // Trạng thái XẤU
+        resArea.className = "result-box bad";
+        resStatus.innerHTML = "❌ NGÀY KHÔNG TỐT";
+        resSoul.innerHTML = job.bad;
+    }
+}
     </script>
 </body>
 </html>
