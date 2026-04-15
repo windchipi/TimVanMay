@@ -4,100 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NHÀ TIÊN TRI - Trạm Du Hành Số Mệnh</title>
+    
+    <meta name="description" content="Công cụ hỗ trợ sáng tạo và giải trí dành cho Game Designer. Khám phá vận hành số mệnh trong không gian Sci-fi.">
+    <meta name="robots" content="index, follow">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta property="og:title" content="Nhà Tiên Tri - Fortune Toolbox">
+    <meta property="og:type" content="website">
+
     <style>
         :root {
-            --primary: #00ff95; /* Xanh Neon */
-            --primary-glow: rgba(0, 255, 149, 0.4);
-            --bg-deep: #020205; /* Đen vũ trụ */
-            --ship-panel: rgba(10, 15, 25, 0.9); /* Màu tấm ốp phi thuyền */
-            --ship-border: #1a253a; /* Viền tấm ốp */
-            --magic-purple: #a020f0;
-            --lotto-yellow: #ffcc00;
-            --xoso-red: #ff3333;
-            --date-blue: #00d9ff;
+            --primary: #00ff95; --primary-glow: rgba(0, 255, 149, 0.4);
+            --bg-deep: #020205; --ship-panel: rgba(10, 15, 25, 0.9);
+            --ship-border: #1a253a; --magic-purple: #a020f0;
+            --lotto-yellow: #ffcc00; --xoso-red: #ff3333; --date-blue: #00d9ff;
         }
 
         body { 
             text-align: center; font-family: 'Orbitron', 'Segoe UI', sans-serif; 
             background-color: var(--bg-deep); color: #c9d1d9; 
-            margin: 0; overflow: hidden; position: relative;
-            min-height: 100vh;
+            margin: 0; overflow: hidden; position: relative; min-height: 100vh;
         }
 
-        /* --- BACKGROUND: VŨ TRỤ --- */
         #space-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.8) 100%);
             z-index: -1; pointer-events: none;
         }
 
-        /* --- CẤU TRÚC PHI THUYỀN --- */
-        #lobby { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            min-height: 100vh; padding: 40px; 
-            box-sizing: border-box;
-            position: relative; z-index: 1;
-        }
+        #lobby { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px; box-sizing: border-box; }
 
         .main-console {
-            background: var(--ship-panel);
-            border: 2px solid var(--ship-border);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(26, 37, 58, 0.5);
-            position: relative;
-            max-width: 500px; width: 100%;
+            background: var(--ship-panel); border: 2px solid var(--ship-border);
+            border-radius: 20px; padding: 40px; box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            max-width: 500px; width: 100%; position: relative;
         }
 
-        .lobby-title { 
-            font-size: 2.5rem; color: var(--primary); text-transform: uppercase; 
-            letter-spacing: 6px; margin-bottom: 30px; margin-top: 0;
-            text-shadow: 0 0 15px var(--primary-glow);
-            position: relative;
-        }
-        
-        .lobby-title::after {
-            content: "SYSTEM STATUS: ONLINE"; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
-            font-size: 0.7rem; letter-spacing: 2px; color: #444; font-weight: normal;
-        }
+        .lobby-title { font-size: 2.5rem; color: var(--primary); text-transform: uppercase; letter-spacing: 6px; margin-bottom: 30px; text-shadow: 0 0 15px var(--primary-glow); }
 
-        .menu-group { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .menu-group { display: flex; flex-direction: column; gap: 12px; }
         
         .menu-link { 
             padding: 16px; font-size: 0.9rem; font-weight: bold; cursor: pointer; 
             background: #0a0e17; color: var(--primary); 
             border: 1px solid var(--ship-border); border-radius: 5px; 
             transition: 0.3s ease; text-transform: uppercase; 
-            text-decoration: none; display: block;
-            position: relative; overflow: hidden;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            text-decoration: none; display: block; position: relative;
         }
 
-        .menu-link:hover { 
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px rgba(0,255,149,0.2);
-            transform: translateY(-2px);
-        }
-        
-        .menu-link::after {
-            content: ""; position: absolute; top: 50%; right: 15px; transform: translateY(-50%);
-            width: 6px; height: 6px; border-radius: 50%;
-            background: #222; border: 1px solid #444;
-            transition: 0.3s;
-        }
-        
+        .menu-link:hover { border-color: var(--primary); color: #fff; box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px); }
+        .menu-link::after { content: ""; position: absolute; top: 50%; right: 15px; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 50%; background: #222; border: 1px solid #444; transition: 0.3s; }
         .menu-link:hover::after { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
 
-        /* --- DECOR --- */
-        .ship-decor-v { position: fixed; top: 0; width: 20px; height: 100%; background: #080a10; border-left: 2px solid #1a253a; border-right: 2px solid #1a253a; z-index: -1; }
-        .decor-left { left: 5%; } .decor-right { right: 5%; }
-        
-        /* --- TELEGRAM --- */
-        .tele-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: #0088cc; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(0, 136, 204, 0.6); z-index: 9999; transition: 0.3s; border: 2px solid #fff; }
-        .tele-fab:hover { transform: scale(1.1) rotate(10deg); }
+        .tele-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: #0088cc; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(0, 136, 204, 0.6); z-index: 9999; border: 2px solid #fff; text-decoration: none;}
         .tele-fab img { width: 35px; height: 35px; }
 
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
@@ -106,48 +65,17 @@
 <body>
     <canvas id="space-canvas"></canvas>
 
-    <div class="ship-decor-v decor-left"></div>
-    <div class="ship-decor-v decor-right"></div>
-
     <div id="lobby">
         <div class="main-console">
             <h1 class="lobby-title">🔮 NHÀ TIÊN TRI 🔮</h1>
             <div class="menu-group">
                 <a href="que-bai.html?count=1" class="menu-link">Rút 1 Lá (Đơn Quẻ)</a>
                 <a href="que-bai.html?count=3" class="menu-link">Rút 3 Lá (Tam Quẻ)</a>
-                
-                <a href="xem-ngay.html" class="menu-link" style="color: var(--date-blue); border-color: rgba(0,217,255,0.3);">
-                    XEM NGÀY TỐT XẤU
-                    <style>
-                        .menu-link[href="xem-ngay.html"]:hover { border-color: var(--date-blue); box-shadow: 0 0 20px rgba(0,217,255,0.5); }
-                        .menu-link[href="xem-ngay.html"]:hover::after { background: var(--date-blue); box-shadow: 0 0 10px var(--date-blue); }
-                    </style>
-                </a>
-
-                <a href="chiem-tinh.html" class="menu-link" style="color: var(--magic-purple); border-color: rgba(160,32,240,0.3);">
-                    CHIÊM TINH ĐOÁN SỐ
-                    <style>
-                        .menu-link[href="chiem-tinh.html"]:hover { border-color: var(--magic-purple); box-shadow: 0 0 20px rgba(160,32,240,0.5); }
-                        .menu-link[href="chiem-tinh.html"]:hover::after { background: var(--magic-purple); box-shadow: 0 0 10px var(--magic-purple); }
-                    </style>
-                </a>
-                
-                <a href="van-may.html?type=small" class="menu-link" style="color: var(--lotto-yellow); border-color: rgba(255,204,0,0.3);">
-                    VẬN MAY NHỎ (1-99)
-                    <style>
-                        .menu-link[href*="van-may"]:hover { border-color: var(--lotto-yellow); box-shadow: 0 0 20px rgba(255,204,0,0.5); }
-                        .menu-link[href*="van-may"]:hover::after { background: var(--lotto-yellow); box-shadow: 0 0 10px var(--lotto-yellow); }
-                    </style>
-                </a>
+                <a href="xem-ngay.html" class="menu-link" style="color: var(--date-blue); border-color: rgba(0,217,255,0.3);">XEM NGÀY TỐT XẤU</a>
+                <a href="chiem-tinh.html" class="menu-link" style="color: var(--magic-purple); border-color: rgba(160,32,240,0.3);">CHIÊM TINH ĐOÁN SỐ</a>
+                <a href="van-may.html?type=small" class="menu-link" style="color: var(--lotto-yellow); border-color: rgba(255,204,0,0.3);">VẬN MAY NHỎ (1-99)</a>
                 <a href="van-may.html?type=big" class="menu-link" style="color: var(--lotto-yellow); border-color: rgba(255,204,0,0.3);">VẬN MAY LỚN (6 SỐ)</a>
-                
-                <a href="xoso.html" class="menu-link" style="color: var(--xoso-red); border-color: rgba(255,51,51,0.3);">
-                    KẾT QUẢ XSMB
-                    <style>
-                        .menu-link[href="xoso.html"]:hover { border-color: var(--xoso-red); box-shadow: 0 0 20px rgba(255,51,51,0.5); }
-                        .menu-link[href="xoso.html"]:hover::after { background: var(--xoso-red); box-shadow: 0 0 10px var(--xoso-red); }
-                    </style>
-                </a>
+                <a href="xoso.html" class="menu-link" style="color: var(--xoso-red); border-color: rgba(255,51,51,0.3);">KẾT QUẢ XSMB</a>
             </div>
         </div>
     </div>
@@ -162,7 +90,7 @@
         let particles = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         class Particle { constructor() { this.reset(); } reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 1.5; this.speed = Math.random() * 0.1 + 0.05; } update() { this.y -= this.speed; if (this.y < 0) this.reset(); } draw() { ctx.fillStyle = "rgba(255,255,255,0.5)"; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); } }
-        function initSpace() { resize(); particles = []; for(let i=0; i<100; i++) particles.push(new Particle()); animate(); }
+        function initSpace() { resize(); for(let i=0; i<100; i++) particles.push(new Particle()); animate(); }
         function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update(); p.draw();}); requestAnimationFrame(animate); }
         window.addEventListener('resize', resize); initSpace();
     </script>
