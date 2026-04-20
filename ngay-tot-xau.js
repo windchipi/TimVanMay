@@ -73,6 +73,24 @@ const DateJobDB = [
         bad: "Đặt xong thì quán báo hết hàng hoặc shipper đi lạc 1 tiếng chưa tới." 
     },
     { 
+        id: "release-game", 
+        name: "Release Game / Global Launch", 
+        good: "Thiên thời địa lợi! Game launch không crash, user vào nườm nượp, server chạy mượt như lụa. Top Chart đang vẫy gọi!",
+        bad: "Dễ bị crash server ngay phút mốt. Game vừa lên đã gặp lỗi logic nghiêm trọng. Nên dời ngày để cúng thêm... à nhầm, để check kỹ lại." 
+    },
+    { 
+        id: "up-store", 
+        name: "Submit Store (App Store/Play Store)", 
+        good: "Reviewer hôm nay đang vui tính. Duyệt siêu tốc, không bị 'reject' vì những lý do vớ vẩn. App lên sóng trong vòng nốt nhạc.",
+        bad: "Dễ bị ăn gậy từ Reviewer. Lỗi metadata hoặc dính bản quyền hình ảnh. Kiểm tra kỹ Policy trước khi ấn nút nhé!" 
+    },
+    { 
+        id: "fix-bug", 
+        name: "Fix Bug / Cân bằng Game", 
+        good: "Tư duy thông suốt, tìm đâu trúng đó. Một lần sửa, ngàn lần yên ổn. Game cân bằng đến mức người chơi chỉ biết thán phục.",
+        bad: "Sửa 1 bug đẻ 10 bug mới. Chỉ số game càng chỉnh càng nát. Hôm nay chỉ nên làm UI nhẹ nhàng, đừng động vào core logic." 
+    },
+    { 
         id: "don-ban", 
         name: "Dọn dẹp bàn làm việc", 
         good: "Tìm lại được những vật phẩm thất lạc từ đời nào. Không gian thoáng đãng, vận khí lên.",
